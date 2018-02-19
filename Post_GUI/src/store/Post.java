@@ -82,11 +82,11 @@ public class Post {
     }
     
     private boolean verifyPayment(Payment payment){
-        if((payment instanceof CashPayment) || (Math.random() * 100.0) >= 10) return true;
+        if((payment instanceof CashPayment) || (Math.random() * 100.0) >= 10.0) return true;
         return false;
     }
     
-    private void postTransaction(Transaction trans){
+    private void postTransaction(Transaction transaction){
         client.postInvoice(transaction);
     }
 
