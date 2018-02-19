@@ -1,14 +1,14 @@
 package store;
 
 import transaction.CashPayment;
-import transaction.CheckPayment;
-import transaction.CreditPayment;
 import transaction.Payment;
 import transaction.Transaction;
 import transaction.TransactionHeader;
 import transaction.TransactionItem;
 
 import java.text.NumberFormat;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
 
 public class Post {
     private PostNetworkInterface client;
@@ -24,11 +24,14 @@ public class Post {
     Post(Store store, PostNetworkInterface client){
         formatter = NumberFormat.getCurrencyInstance();
         total = 0.0;
-        this.productCatalog = productCatalog;
+        try{
+            this.productCatalog = client.getCatalog();
+        } catch (ParserConfigurationException | SAXException e){
+            e.printStackTrace();
+        }
         this.store = store;
     }
-    
-    
+        
     public void startTransaction() {
         transaction = new Transaction();
         invoice = "";
