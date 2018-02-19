@@ -3,19 +3,15 @@ package store;
 import java.util.HashMap;
 
 public class ProductCatalog {
-private ProductReader pr;
 private HashMap<String, ProductSpec> productCatalog;
 private ProductSpec spec;
     
-    ProductCatalog(String filePath){
-        pr = new ProductReader(filePath);
+    ProductCatalog(){
         productCatalog = new HashMap();
     }
     
     void init(){
-        while(pr.hasMoreProducts()){
-            addProduct(pr.nextProduct());
-        }        
+        // add initialization here
     }
     
     void addProduct(ProductSpec productSpec){

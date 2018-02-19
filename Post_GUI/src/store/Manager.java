@@ -7,15 +7,18 @@ public class Manager {
         this.store = store;
     }
 
-    public Post openStore(String procatalogPath) {
+    public void initPost(Post post, PostNetworkInterface client){
+        post = new Post(store, client);
+    }
+    
+    public void openStore() {
         // init product catalog
         // store.getCatalog().init();
         // setup Post -- store.getPost().init();
-        ProductCatalog productCatalog = new ProductCatalog(procatalogPath);
+        String procatalog = "Post/testFiles/Products.txt";
+        ProductCatalog productCatalog = new ProductCatalog();
         productCatalog.init();
-        Post post = new Post(store, productCatalog);
         store.open();
-        return post;
     }
 
     public void closeStore() {

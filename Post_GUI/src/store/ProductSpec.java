@@ -5,7 +5,7 @@ public class ProductSpec {
     String description;
     double price;
 
-    public ProductSpec(String upc, String description, double price) {
+    ProductSpec(String upc, String description, double price) {
         this.upc = upc;
         this.description = description;
         this.price = price;

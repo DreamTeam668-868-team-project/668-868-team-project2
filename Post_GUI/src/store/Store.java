@@ -1,10 +1,9 @@
 package store;
 
-import post_gui.*;
-import java.io.FileNotFoundException;
+import post_gui.GUI;
+
 
 public class Store {
-
     public java.util.Date getDateAndTime() {
         return new java.util.Date();
     }
@@ -13,7 +12,8 @@ public class Store {
     private Manager manager;
     private Post post; // maybe array later
     private boolean isOpen;
-//    private static String productsCatalog = "Products.txt";
+//    private static String productsCatalog = "Post/testFiles/Products.txt";
+//    private static String customerTransaction = "Post/testFiles/Transaction.txt";
 
     public Store(String name) {
         // have a store name
@@ -24,7 +24,6 @@ public class Store {
     public String getName() {
         return this.name;
     }
-
     void open() {
         isOpen = true;
     }
@@ -38,10 +37,15 @@ public class Store {
     }
 
     public static void main(String[] args) {
-        String filePath = "src/testFiles/Products.txt"; // will be replace by file path in SQL
+
         Store store = new Store("Costco");
         Manager manager = new Manager("John", store);
-        Post post = manager.openStore(filePath);
+        Post post = null;
+        
+        PostNetworkInterface client = new PostNetworkInterface();
+        // manager opens store
+        manager.initPost(post, client);
+        manager.openStore();
         
         if (store.isOpen) {
             GUI gui = new GUI(post);
@@ -52,35 +56,5 @@ public class Store {
                 }
             });
         }
-        
-        /*
-        reads the file (for testing)
-         */
-//        String filePath = "src/testFiles/Products.txt";
-//        ProductReader pr = new ProductReader(filePath);
-//        while(pr.hasMoreProducts()){
-//            ProductSpec product = pr.nextProduct();
-//           
-//        }
-        /**/
-        // manager opens store
-//        post.updateProductCatalog();
-//        if (store.isOpen) {
-//            // loads products spec from database
-//
-//            manager.closeStore();
-//        }
-
-        // customers buy things
-        // customer interacts with POST to process transactions
-        // manager closes store
-        /*
-        while ( TransactionReader.hasMoreTransactons )
-        {
-            Customer customer = new Customer(TransactionReader.nextTransaction());
-        
-        
-        }
-         */
     }
 }
