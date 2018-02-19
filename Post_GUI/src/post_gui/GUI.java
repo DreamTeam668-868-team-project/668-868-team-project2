@@ -6,6 +6,7 @@
  */
 package post_gui;
 
+import javax.swing.DefaultComboBoxModel;
 import transaction.Transaction;
 import store.Post;
 import transaction.TransactionItem;
@@ -27,10 +28,11 @@ public class GUI extends javax.swing.JFrame {
         // todo get data from database
         this.post = post;
         
-        String upcs[] = {"1234", "2345", "9878", "2468", "1357", "9999"};
-        for (int i = 0; i < upcs.length; i++) {
-            jComboBox_upc.addItem(upcs[i]);
-        }
+        // Dynamically set upcs for gui
+        String upcs[] = post.getCatalog().getUpcs();
+        jComboBox_upc.setModel(new DefaultComboBoxModel(upcs));
+        
+        
         int quantity[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
         for (int i = 0; i < quantity.length; i++) {
             jComboBox_quantity.addItem(quantity[i] + "");
