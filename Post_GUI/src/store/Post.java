@@ -17,6 +17,7 @@ public class Post {
     private ProductSpec scannedProduct;
     private double total;
 
+    private boolean transactionStatus;
     private String invoice;
     private Store store;
     NumberFormat formatter;
@@ -31,10 +32,12 @@ public class Post {
             e.printStackTrace();
         }
         this.store = store;
+        transactionStatus = false;
     }
 
     public void startTransaction() {
         transaction = new Transaction();
+        transactionStatus = true;
         invoice = "";
         total = 0.0;
         scannedProduct = null;
@@ -58,6 +61,7 @@ public class Post {
         }
         this.transaction.setPayment(payment); // payment info for transaction -- network item
         postTransaction(transaction);
+        transactionStatus = false;
         return true;
     }
 
@@ -102,4 +106,10 @@ public class Post {
     public ProductCatalog getCatalog() {
         return this.productCatalog;
     }
+    
+    public boolean getTransactionStatus(){
+        return this.transactionStatus;
+    }
+    
+    
 }

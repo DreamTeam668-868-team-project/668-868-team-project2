@@ -5,10 +5,11 @@
  */
 package post_gui;
 
+import store.Post;
+
 /**
  *
  * @author jiawenzhu
  */
 public class PaymentPanel {
-    
 }
