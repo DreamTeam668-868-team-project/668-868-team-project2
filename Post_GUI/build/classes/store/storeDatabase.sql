@@ -15,7 +15,9 @@ CREATE TABLE productCatalog (
 );
 
 INSERT INTO productCatalog
-VALUES  ('1654', 'COUGAR', 150.0),
+VALUES  ('1234', 'PRODUCT 1', 0.99),
+        ('4321', 'SECOND PRODUCT', 10.0),
+        ('1654', 'COUGAR', 150.0),
         ('4846', 'PRESSURE WASHER', 200.0),
         ('9443', 'TRICYCLE', 49.90),
         ('8461', 'BICYCLE', 150.0),
