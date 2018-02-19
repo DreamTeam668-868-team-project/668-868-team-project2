@@ -6,6 +6,8 @@
  */
 package post_gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import transaction.Transaction;
 import store.Post;
 import transaction.TransactionItem;
@@ -25,8 +27,11 @@ public class GUI extends javax.swing.JFrame {
     public GUI(Post post) {
         initComponents();
         // todo get data from database
+        jComboBox_upc.removeAllItems();
+        jComboBox_quantity.removeAllItems();
+        jComboBox_payType.removeAllItems();
         this.post = post;
-        
+
         String upcs[] = {"1234", "2345", "9878", "2468", "1357", "9999"};
         for (int i = 0; i < upcs.length; i++) {
             jComboBox_upc.addItem(upcs[i]);
@@ -39,6 +44,48 @@ public class GUI extends javax.swing.JFrame {
         for (int i = 0; i < payments.length; i++) {
             jComboBox_payType.addItem(payments[i]);
         }
+        //default setting//
+        creditCardNum.setVisible(false);
+        //select a payment type 
+        jComboBox_payType.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                enter_comboxBox_payType();
+            }
+        });
+
+    }
+
+    private void enter_comboxBox_payType() {
+        String selectType = jComboBox_payType.getSelectedItem().toString();
+        if (selectType == "cash") {
+            cashVisitility();
+        } else if (selectType == "check") {
+            checkVisitility();
+        } else { // credit card
+            creditVisitility();
+        }
+
+    }
+
+    private void cashVisitility() {
+        jTextField_amount.setVisible(true);
+        amount.setVisible(true);
+        change.setVisible(true);
+        creditCardNum.setVisible(false);
+    }
+
+    private void checkVisitility() {
+        jTextField_amount.setVisible(true);
+        amount.setVisible(true);
+        change.setVisible(false);
+        creditCardNum.setVisible(false);
+    }
+
+    private void creditVisitility() {
+        jTextField_amount.setVisible(false);
+        amount.setVisible(false);
+        change.setVisible(false);
+        creditCardNum.setVisible(true);
     }
 
     /**
@@ -69,10 +116,12 @@ public class GUI extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         payment_panel = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        amount = new javax.swing.JLabel();
         pay_button = new javax.swing.JButton();
         jComboBox_payType = new javax.swing.JComboBox<>();
         jTextField_amount = new javax.swing.JTextField();
+        change = new javax.swing.JLabel();
+        creditCardNum = new javax.swing.JTextField();
         jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -176,7 +225,7 @@ public class GUI extends javax.swing.JFrame {
         post_panelLayout.setVerticalGroup(
             post_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(post_panelLayout.createSequentialGroup()
-                .addContainerGap(11, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(post_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
@@ -195,7 +244,7 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel9.setText("Payment type");
 
-        jLabel10.setText("Amount");
+        amount.setText("Amount");
 
         pay_button.setText("Pay");
         pay_button.addActionListener(new java.awt.event.ActionListener() {
@@ -208,35 +257,57 @@ public class GUI extends javax.swing.JFrame {
 
         jTextField_amount.setText("0.00");
 
+        change.setText("change");
+
+        creditCardNum.setText("123456789");
+        creditCardNum.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                creditCardNumActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout payment_panelLayout = new javax.swing.GroupLayout(payment_panel);
         payment_panel.setLayout(payment_panelLayout);
         payment_panelLayout.setHorizontalGroup(
             payment_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(payment_panelLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, payment_panelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jComboBox_payType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(payment_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(payment_panelLayout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox_payType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 19, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, payment_panelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(pay_button)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField_amount, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(payment_panelLayout.createSequentialGroup()
-                .addGap(111, 111, 111)
-                .addComponent(pay_button)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(payment_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(payment_panelLayout.createSequentialGroup()
+                        .addComponent(amount, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextField_amount, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(payment_panelLayout.createSequentialGroup()
+                        .addComponent(creditCardNum, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(change)))
+                .addGap(53, 53, 53))
         );
         payment_panelLayout.setVerticalGroup(
             payment_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(payment_panelLayout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addGap(17, 17, 17)
                 .addGroup(payment_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(jLabel10)
+                    .addComponent(amount)
                     .addComponent(jComboBox_payType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField_amount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(pay_button))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(payment_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(creditCardNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(change)
+                    .addComponent(pay_button))
+                .addGap(0, 6, Short.MAX_VALUE))
         );
 
         jTextField1.setText("John");
@@ -293,16 +364,23 @@ public class GUI extends javax.swing.JFrame {
         // clear perious text to avoid redundant 
         jTextArea1.setText("");
         // display posts in the textField 
-        jTextArea1.append(post.getInvoice() + "\n"); // append will keep adding pervious line to next line //
-        
+        jTextArea1.append(post.getInvoice() + "\n");
 //        transaction.addTransactionItem(TranItm);
-        total.setText(post.getTotal()+"");
+        total.setText(post.getTotal() + "");
     }//GEN-LAST:event_Enter_buttonActionPerformed
 
     private void pay_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pay_buttonActionPerformed
         String selectType = jComboBox_payType.getSelectedItem().toString();
         double amount = Double.parseDouble(jTextField_amount.getSelectedText().trim());
     }//GEN-LAST:event_pay_buttonActionPerformed
+
+    private void creditCardNumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_creditCardNumActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_creditCardNumActionPerformed
+    private void select_jComboBox_payType() {
+
+        double amount = Double.parseDouble(jTextField_amount.getSelectedText().trim());
+    }
 
     /**
      * @param args the command line arguments
@@ -336,11 +414,13 @@ public class GUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Enter_button;
+    private javax.swing.JLabel amount;
+    private javax.swing.JLabel change;
+    private javax.swing.JTextField creditCardNum;
     private javax.swing.JComboBox<String> jComboBox_payType;
     private javax.swing.JComboBox<String> jComboBox_quantity;
     private javax.swing.JComboBox<String> jComboBox_upc;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
@@ -362,5 +442,5 @@ public class GUI extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     private Post post;
     private Transaction transaction;
-    
+
 }
