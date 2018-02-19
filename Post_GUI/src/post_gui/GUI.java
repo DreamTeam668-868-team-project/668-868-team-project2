@@ -358,7 +358,8 @@ public class GUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void Enter_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Enter_buttonActionPerformed
-
+        if(!post.getTransactionStatus()) post.startTransaction();
+        
         String selectUPC = jComboBox_upc.getSelectedItem().toString();
         int select_quantity = Integer.parseInt(jComboBox_quantity.getSelectedItem().toString());
         TransactionItem TranItm = new TransactionItem(selectUPC, select_quantity);
