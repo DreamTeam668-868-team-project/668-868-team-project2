@@ -3,9 +3,20 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/Travis/Dropbox/School/CSC%20668/Post_GUI/src/store/Post.java</file>
             <file>file:/C:/Users/Travis/Dropbox/School/CSC%20668/Post_GUI/src/store/ProductCatalog.java</file>
             <file>file:/C:/Users/Travis/Dropbox/School/CSC%20668/Post_GUI/src/store/Store.java</file>
+=======
+            <file>file:/Users/jiawenzhu/NetBeansProjects/Post_GUI/src/store/Store.java</file>
+            <file>file:/Users/jiawenzhu/NetBeansProjects/Post_GUI/src/store/Post.java</file>
+            <file>file:/Users/jiawenzhu/NetBeansProjects/Post_GUI/src/store/ProductReader.java</file>
+            <file>file:/Users/jiawenzhu/NetBeansProjects/Post_GUI/src/store/ProductCatalog.java</file>
+            <file>file:/Users/jiawenzhu/NetBeansProjects/Post_GUI/src/post_gui/GUI.java</file>
+            <file>file:/Users/jiawenzhu/NetBeansProjects/Post_GUI/src/testFiles/Products.txt</file>
+            <file>file:/Users/jiawenzhu/NetBeansProjects/Post_GUI/src/store/Manager.java</file>
+            <file>file:/Users/jiawenzhu/NetBeansProjects/Post_GUI/src/store/ProductSpec.java</file>
+>>>>>>> GUI-branch
         </group>
     </open-files>
 </project-private>

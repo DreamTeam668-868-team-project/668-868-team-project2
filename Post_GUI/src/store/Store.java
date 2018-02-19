@@ -48,24 +48,13 @@ public class Store {
         manager.openStore();
         
         if (store.isOpen) {
-            
-            manager.closeStore();
+            GUI gui = new GUI(post);
+            // make it open faster //
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    new GUI(post).setVisible(true);
+                }
+            });
         }
-        
-
-        // customers buy things
-        // customer interacts with POST to process transactions
-        // manager closes store
-        
-        /*
-        while ( TransactionReader.hasMoreTransactons )
-        {
-            Customer customer = new Customer(TransactionReader.nextTransaction());
-        
-        
-        }
-        */
-        
     }
 }
-
