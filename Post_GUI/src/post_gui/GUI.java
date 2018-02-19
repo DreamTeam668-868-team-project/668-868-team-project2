@@ -6,9 +6,9 @@
  */
 package post_gui;
 
-import customer.Transaction;
+import transaction.Transaction;
 import store.Post;
-import customer.TransactionItem;
+import transaction.TransactionItem;
 
 /**
  *

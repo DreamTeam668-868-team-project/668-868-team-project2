@@ -16,7 +16,7 @@ public class Post {
     private ProductSpec scannedProduct;
     private double total;
 
-    private String receipt;
+    private String invoice;
     private Store store;
     NumberFormat formatter;
     Transaction transaction;
@@ -31,7 +31,7 @@ public class Post {
     
     public void startTransaction() {
         transaction = new Transaction();
-        receipt = "";
+        invoice = "";
         total = 0.0;
         scannedProduct = null;
     }
@@ -39,9 +39,6 @@ public class Post {
     // accept customer information -- could be rolled into startTransaction, or the inverse
     public void login(TransactionHeader th) {
         this.transaction.setHeader(th); // customer info for invoice -- network item
-        receipt = store.getName() + "\n";
-        receipt += th.getCustomerName() + "  " + th.getDate() + "\n";
-        receipt += "---------------------------------------------------\n";
     }
 
     public void scanItem(TransactionItem tItem) {
@@ -53,21 +50,7 @@ public class Post {
     
     public boolean pay(Payment payment){
         if(!verifyPayment(payment)) return false;
-
-        receipt += "---------------------------------------------------\n";
-        receipt += "Total: $" + String.format("%-10.2f", total) + "\n"; // needs formatting
-        if(payment instanceof CashPayment){
-            receipt += "Amount Tendered: " + String.format("%-10s", formatter.format(((CashPayment) payment).getAmount())) + "\n";
-            receipt += "Amount Returned: " + String.format("%-10s", formatter.format((Math.round((((CashPayment) payment).getAmount() - total) * 100.0) / 100.0)));
-            // check if payment can cover total, return change (if any)
-        } else if (payment instanceof CheckPayment) {
-            // check if amount of payment can cover bill
-            receipt += "Amount Tendered: " + ((CheckPayment) payment).toString();
-        } else if (payment instanceof CreditPayment) {
-            // verify credit number, reject or accept vased on result
-            receipt += "Amount Tendered: " + ((CreditPayment) payment).toString();
-        }
-        this.transaction.setPayment(payment); // payment info for transaction -- network item 
+        this.transaction.setPayment(payment); // payment info for transaction -- network item
         postTransaction(transaction);
         return true;
     }
@@ -77,10 +60,11 @@ public class Post {
         return this.total;
     }
     
-    public String getReceipt(){
-        return this.receipt;
-    }
+    public String getInvoice(){
+        return this.invoice;
+    }   
     
+    // private helper functions
     private boolean verifyPayment(Payment payment){
         if((payment instanceof CashPayment) || (Math.random() * 100.0) >= 10.0) return true;
         return false;
@@ -103,9 +87,7 @@ public class Post {
         double subTotal = quantity * price;
         
         String receiptLine = "<" + desc + " " + String.format("%1$-2s",quantity) + " @ " + String.format("%-11s",formatter.format(price)) + String.format(" %11s",formatter.format((Math.round(subTotal * 100.0) / 100.0))) + ">\n";
-        receipt += receiptLine;
-
-        // <desc      # @ price     subtotal>
+        invoice += receiptLine;
         this.total += subTotal;
     }    
 }

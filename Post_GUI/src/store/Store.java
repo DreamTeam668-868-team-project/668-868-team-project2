@@ -1,6 +1,6 @@
 package store;
 
-import java.io.FileNotFoundException;
+import post_gui.GUI;
 
 
 public class Store {
