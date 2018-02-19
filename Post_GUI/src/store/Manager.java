@@ -7,10 +7,10 @@ public class Manager {
         this.store = store;
     }
 
-    public void initPost(Post post, PostNetworkInterface client){
-        post = new Post(store, client);
+    public Post initPost(PostNetworkInterface client) {
+        return new Post(store, client);
     }
-    
+
     public void openStore() {
         // init product catalog
         // store.getCatalog().init();

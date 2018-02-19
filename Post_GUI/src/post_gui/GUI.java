@@ -6,6 +6,7 @@
  */
 package post_gui;
 
+import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import transaction.Transaction;
@@ -31,11 +32,12 @@ public class GUI extends javax.swing.JFrame {
         jComboBox_quantity.removeAllItems();
         jComboBox_payType.removeAllItems();
         this.post = post;
-
-        String upcs[] = {"1234", "2345", "9878", "2468", "1357", "9999"};
-        for (int i = 0; i < upcs.length; i++) {
-            jComboBox_upc.addItem(upcs[i]);
-        }
+        
+        // Dynamically set upcs for gui
+        String upcs[] = post.getCatalog().getUpcs();
+        jComboBox_upc.setModel(new DefaultComboBoxModel(upcs));
+        
+        
         int quantity[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
         for (int i = 0; i < quantity.length; i++) {
             jComboBox_quantity.addItem(quantity[i] + "");
@@ -356,7 +358,8 @@ public class GUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void Enter_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Enter_buttonActionPerformed
-
+        if(!post.getTransactionStatus()) post.startTransaction();
+        
         String selectUPC = jComboBox_upc.getSelectedItem().toString();
         int select_quantity = Integer.parseInt(jComboBox_quantity.getSelectedItem().toString());
         TransactionItem TranItm = new TransactionItem(selectUPC, select_quantity);
