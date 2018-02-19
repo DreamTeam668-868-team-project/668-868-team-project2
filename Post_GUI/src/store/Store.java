@@ -2,8 +2,8 @@ package store;
 
 import post_gui.GUI;
 
-
 public class Store {
+
     public java.util.Date getDateAndTime() {
         return new java.util.Date();
     }
@@ -24,6 +24,7 @@ public class Store {
     public String getName() {
         return this.name;
     }
+
     void open() {
         isOpen = true;
     }
@@ -40,13 +41,11 @@ public class Store {
 
         Store store = new Store("Costco");
         Manager manager = new Manager("John", store);
-        Post post = null;
-        
         PostNetworkInterface client = new PostNetworkInterface();
         // manager opens store
-        manager.initPost(post, client);
+        Post post = manager.initPost(client);
         manager.openStore();
-        
+
         if (store.isOpen) {
             GUI gui = new GUI(post);
             // make it open faster //

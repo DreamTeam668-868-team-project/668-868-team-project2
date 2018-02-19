@@ -11,6 +11,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 public class Post {
+
     private PostNetworkInterface client;
     private ProductCatalog productCatalog;
     private ProductSpec scannedProduct;
@@ -20,25 +21,25 @@ public class Post {
     private Store store;
     NumberFormat formatter;
     Transaction transaction;
-        
-    Post(Store store, PostNetworkInterface client){
+
+    Post(Store store, PostNetworkInterface client) {
         formatter = NumberFormat.getCurrencyInstance();
         total = 0.0;
-        try{
+        try {
             this.productCatalog = client.getCatalog();
-        } catch (ParserConfigurationException | SAXException e){
+        } catch (ParserConfigurationException | SAXException e) {
             e.printStackTrace();
         }
         this.store = store;
     }
-        
+
     public void startTransaction() {
         transaction = new Transaction();
         invoice = "";
         total = 0.0;
         scannedProduct = null;
     }
-    
+
     // accept customer information -- could be rolled into startTransaction, or the inverse
     public void login(TransactionHeader th) {
         this.transaction.setHeader(th); // customer info for invoice -- network item
@@ -50,30 +51,34 @@ public class Post {
             addItem(tItem);
         }
     }
-    
-    public boolean pay(Payment payment){
-        if(!verifyPayment(payment)) return false;
+
+    public boolean pay(Payment payment) {
+        if (!verifyPayment(payment)) {
+            return false;
+        }
         this.transaction.setPayment(payment); // payment info for transaction -- network item
         postTransaction(transaction);
         return true;
     }
-   
+
     // for gui to display running total
-    public double getTotal(){
+    public double getTotal() {
         return this.total;
     }
-    
-    public String getInvoice(){
+
+    public String getInvoice() {
         return this.invoice;
-    }   
-    
+    }
+
     // private helper functions
-    private boolean verifyPayment(Payment payment){
-        if((payment instanceof CashPayment) || (Math.random() * 100.0) >= 10.0) return true;
+    private boolean verifyPayment(Payment payment) {
+        if ((payment instanceof CashPayment) || (Math.random() * 100.0) >= 10.0) {
+            return true;
+        }
         return false;
     }
-    
-    private void postTransaction(Transaction transaction){
+
+    private void postTransaction(Transaction transaction) {
         client.postInvoice(transaction);
     }
 
@@ -83,14 +88,18 @@ public class Post {
 
     private void addItem(TransactionItem tItem) {
         this.transaction.addTransactionItem(tItem); // add transactions for invoice -- network item
-        
+
         String desc = scannedProduct.getDescription();
         int quantity = tItem.getQuantity();
         double price = scannedProduct.getPrice();
         double subTotal = quantity * price;
-        
-        String receiptLine = "<" + desc + " " + String.format("%1$-2s",quantity) + " @ " + String.format("%-11s",formatter.format(price)) + String.format(" %11s",formatter.format((Math.round(subTotal * 100.0) / 100.0))) + ">\n";
+
+        String receiptLine = "<" + desc + " " + String.format("%1$-2s", quantity) + " @ " + String.format("%-11s", formatter.format(price)) + String.format(" %11s", formatter.format((Math.round(subTotal * 100.0) / 100.0))) + ">\n";
         invoice += receiptLine;
         this.total += subTotal;
-    }    
+    }
+
+    public ProductCatalog getCatalog() {
+        return this.productCatalog;
+    }
 }
