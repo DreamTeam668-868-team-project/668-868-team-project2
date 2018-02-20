@@ -43,5 +43,4 @@ public class ProductCatalog {
         }
         return upcs.toArray(new String[0]);
     }
-
 }

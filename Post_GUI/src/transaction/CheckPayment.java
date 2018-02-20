@@ -6,7 +6,7 @@ package transaction;
  */
 public class CheckPayment extends Payment {
 
-    public CheckPayment(double total) {   
+    public CheckPayment(double total, double amount) {   
         this.type = "CHECK";
         this.total = total;
         this.amount = total;
