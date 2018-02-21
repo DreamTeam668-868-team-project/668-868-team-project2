@@ -26,6 +26,7 @@ public class Post {
     Post(Store store, PostNetworkInterface client) {
         formatter = NumberFormat.getCurrencyInstance();
         total = 0.0;
+        this.client = client;
         try {
             this.productCatalog = client.getCatalog();
         } catch (ParserConfigurationException | SAXException e) {
@@ -56,7 +57,7 @@ public class Post {
     }
 
     public boolean pay(Payment payment) {
-        if (!verifyPayment(payment)) {
+        if (!verifyPayment(payment) || !transactionStatus) {
             return false;
         }
         this.transaction.setPayment(payment); // payment info for transaction -- network item
@@ -98,7 +99,7 @@ public class Post {
         double price = scannedProduct.getPrice();
         double subTotal = quantity * price;
 
-        String receiptLine = "<" + desc + " " + String.format("%1$-2s", quantity) + " @ " + String.format("%-11s", formatter.format(price)) + String.format(" %11s", formatter.format((Math.round(subTotal * 100.0) / 100.0))) + ">\n";
+        String receiptLine = desc + " " + String.format("%-105s", quantity) + String.format("%30s", formatter.format(price)) + String.format("%30s", formatter.format((Math.round(subTotal * 100.0) / 100.0))) + "\n";
         invoice += receiptLine;
         this.total += subTotal;
     }
