@@ -7,6 +7,7 @@ import transaction.TransactionHeader;
 import transaction.TransactionItem;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
@@ -18,7 +19,7 @@ public class Post {
     private double total;
 
     private boolean transactionStatus;
-    private String invoice;
+    private ArrayList<ArrayList<String>> invoice;
     private Store store;
     NumberFormat formatter;
     Transaction transaction;
@@ -39,7 +40,7 @@ public class Post {
     public void startTransaction() {
         transaction = new Transaction();
         transactionStatus = true;
-        invoice = "";
+        invoice = new ArrayList<>();
         total = 0.0;
         scannedProduct = null;
     }
@@ -71,13 +72,17 @@ public class Post {
         return this.total;
     }
 
-    public String getInvoice() {
+    public ArrayList<ArrayList<String>> getInvoice() {
         return this.invoice;
     }
 
     // private helper functions
     private boolean verifyPayment(Payment payment) {
-        if ((payment instanceof CashPayment) || (Math.random() * 100.0) >= 10.0) {
+        if (payment instanceof CashPayment){
+            if ((((CashPayment)payment).getChange() >= 0.0) ) 
+                return true;
+        }
+        else if ((Math.random() * 100.0) >= 10.0) {
             return true;
         }
         return false;
@@ -98,19 +103,24 @@ public class Post {
         int quantity = tItem.getQuantity();
         double price = scannedProduct.getPrice();
         double subTotal = quantity * price;
-
-        String receiptLine = desc + " " + String.format("%-105s", quantity) + String.format("%30s", formatter.format(price)) + String.format("%30s", formatter.format((Math.round(subTotal * 100.0) / 100.0))) + "\n";
-        invoice += receiptLine;
+        ArrayList<String> invoiceLine = new ArrayList<>();
+        invoiceLine.add(desc);
+        invoiceLine.add(String.valueOf(quantity));
+        invoiceLine.add(String.valueOf(price));
+        invoiceLine.add(String.valueOf(subTotal));
+        
+        
+//        String receiptLine = String.format("%-70s %45s %30s %20s", desc, quantity, formatter.format(price), formatter.format((Math.round(subTotal * 100.0) / 100.0))) + "\n";
+        invoice.add(invoiceLine);
         this.total += subTotal;
     }
 
     public ProductCatalog getCatalog() {
         return this.productCatalog;
     }
-    
-    public boolean getTransactionStatus(){
+
+    public boolean getTransactionStatus() {
         return this.transactionStatus;
     }
-    
-    
+
 }

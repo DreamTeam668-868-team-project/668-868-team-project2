@@ -11,7 +11,7 @@ public class CashPayment extends Payment {
         this.type = "CASH";
         this.total = total;
         this.amount = amount;
-        this.change = total - amount;
+        this.change = amount - total;
     }
 
     public void setChange(double change){

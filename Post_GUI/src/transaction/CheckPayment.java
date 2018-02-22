@@ -37,4 +37,5 @@ public class CheckPayment extends Payment {
     }
     
     private double amount;
+   
 }

@@ -17,7 +17,7 @@ public class TransactionHeader {
     }
     
     public String getDateAsString(){
-        return new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").format(date);
+        return new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss").format(date);
     }    // toString();
     
     public Date getDate(){

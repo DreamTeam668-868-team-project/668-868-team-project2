@@ -42,19 +42,17 @@
               <EmptySpace pref="167" max="32767" attributes="0"/>
           </Group>
           <Group type="102" alignment="0" attributes="0">
-              <Group type="103" groupAlignment="1" attributes="0">
+              <EmptySpace max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="1" max="-2" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
-                      <Component id="date_time" min="-2" pref="87" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
+                      <Component id="date_time_name" min="-2" pref="247" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="payment_panel" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="post_panel" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="post_panel" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="160" max="32767" attributes="0"/>
+              <EmptySpace pref="158" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -86,7 +84,7 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                      <Component id="date_time" min="-2" max="-2" attributes="0"/>
+                      <Component id="date_time_name" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -350,7 +348,7 @@
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace pref="45" max="32767" attributes="0"/>
-                                  <Component id="amount" min="-2" pref="50" max="-2" attributes="0"/>
+                                  <Component id="jLable_amount" min="-2" pref="50" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                                   <Component id="jTextField_amount" min="-2" pref="54" max="-2" attributes="0"/>
                               </Group>
@@ -374,7 +372,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="103" alignment="1" groupAlignment="3" attributes="0">
-                          <Component id="amount" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLable_amount" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jTextField_amount" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -398,7 +396,7 @@
             <Property name="text" type="java.lang.String" value="Payment type"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="amount">
+        <Component class="javax.swing.JLabel" name="jLable_amount">
           <Properties>
             <Property name="text" type="java.lang.String" value="Amount"/>
           </Properties>
@@ -451,9 +449,9 @@
         <Property name="text" type="java.lang.String" value="John"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="date_time">
+    <Component class="javax.swing.JLabel" name="date_time_name">
       <Properties>
-        <Property name="text" type="java.lang.String" value="date_time"/>
+        <Property name="text" type="java.lang.String" value="date_time_name"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="start_newTrans">

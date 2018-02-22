@@ -5,8 +5,6 @@
  */
 package transaction;
 
-import java.util.HashMap;
-
 /**
  *
  * @author Travis
