@@ -1,6 +1,6 @@
 package store;
 
-import post_gui.GUI;
+import post_gui.Mediator;
 
 public class Store {
 
@@ -47,11 +47,11 @@ public class Store {
         manager.openStore();
 
         if (store.isOpen) {
-            GUI gui = new GUI(post);
+            Mediator gui = new Mediator(post);
             // make it open faster //
             java.awt.EventQueue.invokeLater(new Runnable() {
                 public void run() {
-                    new GUI(post).setVisible(true);
+                    new Mediator(post).setVisible(true);
                 }
             });
         }
