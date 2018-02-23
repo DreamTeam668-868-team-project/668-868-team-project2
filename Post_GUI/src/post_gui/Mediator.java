@@ -1,4 +1,3 @@
-s
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,11 +8,15 @@ package post_gui;
 import java.util.ArrayList;
 ;
 import store.Post;
+import transaction.Payment;
+import transaction.TransactionItem;
 
 /**
  *
  * @author jiawenzhu
  */
+
+
 public class Mediator extends javax.swing.JFrame {
 
 //    public void actionPerformed(ActionEvent e){
@@ -22,34 +25,52 @@ public class Mediator extends javax.swing.JFrame {
     /**
      * Creates new form GUI
      */
+    boolean updated;
     private Post post;
     String[] upcList;
     int[] quantityList;
     String[] paymentTypes;
-    
-    public double getTotal(){
-        return this.post.getTotal();
-    }
-    
-    public ArrayList<ArrayList<String>> getInvoice(){
-        return post.getInvoice();
-    }
-    
-    public String[] getUPCs(){
-        return this.upcList;
-    }
-    
-    
-    
+
     public Mediator(Post post) {
+        this.post = post;
+        this.upcList = getUPCs();
         initComponents();
         // clear all initial setting 
-        this.post = post;
-        upcList = post.getCatalog().getUpcs();
-        
-        
-        
-        this.paymentTypes = paymentTypes;
+
+    }
+
+    public void init() {
+        this.productPanel1.init(this.upcList);
+        this.post.startTransaction();
+    }
+
+    public boolean passPayment(Payment payment) {
+        if (post.pay(payment)) {
+            post.startTransaction();
+            return true;
+        }
+        return false;
+                
+    }
+
+    public void passItem(TransactionItem tItem) {
+        post.scanItem(tItem);
+        double total = post.getTotal();
+
+        this.postPanel1.setScreen(post.getInvoice());
+        //this.postPanel1.setTotal(total);
+    }
+
+    public double getTotal() {
+        return this.post.getTotal();
+    }
+
+    public ArrayList<ArrayList<String>> getInvoice() {
+        return post.getInvoice();
+    }
+
+    public String[] getUPCs() {
+        return this.post.getCatalog().getUpcs();
     }
 
     /**
@@ -154,9 +175,7 @@ public class Mediator extends javax.swing.JFrame {
         //</editor-fold>
 
         //</editor-fold>
-
         //</editor-fold>
-
         //</editor-fold>
 
         /* Create and display the form */

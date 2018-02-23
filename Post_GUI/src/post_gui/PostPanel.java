@@ -5,7 +5,7 @@
  */
 package post_gui;
 
-import javax.swing.JFrame;
+import java.util.ArrayList;
 
 /**
  *
@@ -13,15 +13,30 @@ import javax.swing.JFrame;
  */
 public class PostPanel extends javax.swing.JPanel {
 
-    JFrame mediator;
+    Mediator mediator;
     /**
      * Creates new form PostPanel
      */
     public PostPanel() {
         initComponents();
-        this.mediator = mediator;
+        mediator = (Mediator)this.getParent();
+    }
+    
+    public void setTotal(double total){
+        this.total.setText(String.valueOf(mediator.getTotal()));
     }
 
+    public void setScreen(ArrayList<ArrayList<String>> list){
+        this.jTextArea_post.setText("");
+        for(int i = 0; i < list.size(); ++i){
+            this.jTextArea_post.append(String.format("%-75s", (list.get(i).get(0))));
+            this.jTextArea_post.append(String.format("%-25s", Integer.valueOf(list.get(i).get(1))));
+            this.jTextArea_post.append(String.format("%-25s", Double.valueOf(list.get(i).get(2))));
+            this.jTextArea_post.append(String.format("%-25s", Double.valueOf(list.get(i).get(3))));
+            this.jTextArea_post.append("\n");
+        }
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

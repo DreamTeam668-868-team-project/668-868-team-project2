@@ -22,7 +22,7 @@ public class PaymentPanel extends javax.swing.JPanel {
 
     double amount;
     double total;
-    JFrame mediator;
+    Mediator mediator;
 
     /**
      * Creates new form PaymentPanel
@@ -30,6 +30,7 @@ public class PaymentPanel extends javax.swing.JPanel {
     public PaymentPanel() {
         initComponents();
         String[] paymentTypes = {"cash", "credit", "check"};
+        mediator = (Mediator) this.getParent();
     }
 
     /**
@@ -81,6 +82,10 @@ public class PaymentPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(89, 89, 89)
+                        .addComponent(creditCardNum, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(86, 86, 86))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel9)
@@ -89,21 +94,15 @@ public class PaymentPanel extends javax.swing.JPanel {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(pay_button)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(70, 70, 70)
-                                .addComponent(change)
-                                .addGap(34, 34, 34))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLable_amount, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(30, 30, 30)
-                                .addComponent(jTextField_amount, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(89, 89, 89)
-                        .addComponent(creditCardNum, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(64, 64, 64)))
-                .addGap(22, 22, 22))
+                                .addComponent(jTextField_amount, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(change)
+                                .addGap(77, 77, 77))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -133,9 +132,11 @@ public class PaymentPanel extends javax.swing.JPanel {
         String txt = jTextField_amount.getText().trim();
         if (!txt.isEmpty()) {  // generate double value of amount to be paid
             amount = Double.parseDouble(jTextField_amount.getText().trim());
-        } else amount = total;
+        } else {
+            amount = total;
+        }
         switch (selectType) {
-            case "cash":        
+            case "cash":
                 payment = new CashPayment(total, amount);
                 break;
             case "check":
@@ -146,15 +147,10 @@ public class PaymentPanel extends javax.swing.JPanel {
                 break;
         }
 
-        
-        
-
-        if (post.pay(payment)) {
+        if (mediator.passPayment(payment)) {
             change.setText(NumberFormat.getCurrencyInstance().format(payment.getChange()) + "");
             // finish one transaction sets start_newTrans buttons active
-
-        } //invalid credit card
-        else {
+        } else { // transaction was rejected
             if (payment instanceof CashPayment) {
                 // warning message
                 JFrame frame = new JFrame();

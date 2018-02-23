@@ -48,10 +48,11 @@ public class Store {
 
         if (store.isOpen) {
             Mediator gui = new Mediator(post);
+            gui.init();
             // make it open faster //
             java.awt.EventQueue.invokeLater(new Runnable() {
                 public void run() {
-                    new Mediator(post).setVisible(true);
+                    gui.setVisible(true);
                 }
             });
         }
